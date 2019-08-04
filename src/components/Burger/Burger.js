@@ -2,16 +2,20 @@ import React from 'react';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 import classes from './Burger.css';
 
-const burger = (props) => {
-    let transformedIngred = Object.keys(props.ingredients)
+const burger = ({ ingredients }) => {
+    let transformedIngred = Object.keys(ingredients)
         .map(ingKey => {
-            return [...Array(props.ingredients[ingKey])].map((_, i) => {
+            // Array(x) => un array cu x elemente
+            return [...Array(ingredients[ingKey])].map((_, i) => {
                 return <BurgerIngredient
                     key={ingKey + i}
                     type={ingKey}
                 />
             });
-        }).reduce((arr, el) => {
+        })
+        // => [[<BurgerIngredient key="salad0"/>], [<BurgerIngredient key="bacon0"/>], [...]]
+        // array of arrays => concat all sub-arrays:
+        .reduce((arr, el) => {
             return arr.concat(el);
         }, []);
     
